@@ -4,7 +4,7 @@
   "description": "Svelte + Go Testing",
   "main": "server/main.go",
   "scripts": {
-    "dev": "parcel src/index.html",
+    "dev": "parcel watch src/index.html --log-level 4",
     "build": "parcel build src/index.html"
   },
   "repository": {
