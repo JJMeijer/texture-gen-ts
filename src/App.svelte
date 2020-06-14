@@ -1,11 +1,10 @@
 <script>
-    let name = 'world!';
+    import Texture from './Texture.svelte'
+    import Title from './Title.svelte'
+    import GenerateButton from './GenerateButton.svelte'
+
 </script>
 
-<style>
-    h1 {
-        text-align: center
-    }
-</style>
-
-<h1>Hello {name}</h1>
+<Title />
+<GenerateButton />
+<Texture />

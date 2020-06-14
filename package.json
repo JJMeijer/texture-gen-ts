@@ -4,7 +4,7 @@
   "description": "Svelte + Go Testing",
   "main": "server/main.go",
   "scripts": {
-    "dev": "parcel watch src/index.html --log-level 4",
+    "dev": "parcel src/index.html --log-level 4",
     "build": "parcel build src/index.html"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-svelte3": "^2.7.3",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-svelte": "^4.0.6",
     "sass": "^1.26.8"
