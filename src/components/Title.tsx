@@ -1,5 +1,3 @@
-import React from 'react'
+import React from 'react';
 
-export const Title = () => (
-    <h1>Texture Generator</h1>
-)
+export const Title: React.FC = () => <h1>Texture Generator</h1>;
