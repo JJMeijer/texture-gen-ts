@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
-import { Color, TextureProps } from '../models/Texture';
+import { Color, Texture } from '../models/Texture';
 import * as css from './TextureCanvas.css';
+
+interface TextureProps {
+  setup: Texture;
+}
 
 const getCanvasElement = (id: string): HTMLCanvasElement => {
   const canvas = document.getElementById(id);

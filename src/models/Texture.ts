@@ -12,7 +12,3 @@ export interface Texture {
     width: number;
   };
 }
-
-export interface TextureProps {
-  setup: Texture;
-}
