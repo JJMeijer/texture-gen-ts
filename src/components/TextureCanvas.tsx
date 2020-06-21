@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { Color, Texture } from '../models/Texture';
-import * as css from './TextureCanvas.css';
 
 interface TextureProps {
   setup: Texture;
 }
+
+const useStyles = makeStyles(() => ({
+  texture: {
+    border: '1px solid #212223',
+  },
+}));
 
 const getCanvasElement = (id: string): HTMLCanvasElement => {
   const canvas = document.getElementById(id);
@@ -34,6 +41,7 @@ const getRandomColorFromHexArray = (hexArray: string[]): string => {
 };
 
 export const TextureCanvas = (props: TextureProps): React.ReactElement => {
+  const classes = useStyles();
   const {
     setup: {
       core: { palette },
@@ -44,7 +52,7 @@ export const TextureCanvas = (props: TextureProps): React.ReactElement => {
   const hexArray: string[] = generateHexArray(palette);
 
   useEffect(() => {
-    const canvas: HTMLCanvasElement = getCanvasElement(css.texture);
+    const canvas: HTMLCanvasElement = getCanvasElement(classes.texture);
     const context = canvas.getContext('2d');
 
     if (context) {
@@ -57,5 +65,5 @@ export const TextureCanvas = (props: TextureProps): React.ReactElement => {
     }
   });
 
-  return <canvas width={width} height={height} id={css.texture}></canvas>;
+  return <canvas width={width} height={height} id={classes.texture}></canvas>;
 };
