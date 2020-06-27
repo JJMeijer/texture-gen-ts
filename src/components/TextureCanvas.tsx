@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Color, Texture } from '../models/Texture';
+import { Color, Texture } from '../models/models';
 
 interface TextureProps {
   setup: Texture;
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   texture: {
     border: '1px solid #212223',
+  },
+  paper: {
+    padding: theme.spacing(1),
   },
 }));
 

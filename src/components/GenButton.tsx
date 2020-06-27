@@ -1,12 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Texture } from '../models/Texture';
-
-interface GenButtonProps {
-  setTextureSettings: Dispatch<SetStateAction<Texture>>;
-}
+import { Texture, GenButtonProps } from '../models';
 
 const useStyles = makeStyles(() => ({
   genButton: {

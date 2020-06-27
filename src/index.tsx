@@ -8,7 +8,7 @@ import { App } from './components/App';
 ReactDOM.render(
   <>
     <CssBaseline />
-    <Container maxWidth="xl">
+    <Container maxWidth="lg">
       <App />
     </Container>
   </>,

@@ -1,58 +1,47 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
-import { ChromePicker, ColorResult } from 'react-color';
+import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
-const useStyles = makeStyles((theme) => ({
-  colorCircle: {
-    height: theme.spacing(4.5),
-    width: theme.spacing(4.5),
-    borderRadius: '50%',
-    display: 'inline-block',
-  },
-}));
+import { ColorPicker } from './ColorPicker';
 
 export const TextureSettings: React.FC = () => {
-  const classes = useStyles();
-
-  const [colorValue, setColorValue] = useState('#000000');
-  const [popoverOpen, setPopoverOpen] = useState(false);
-
-  const handleChange = (color: ColorResult) => {
-    setColorValue(color.hex);
-  };
-
-  const handleClick = () => {
-    setPopoverOpen(true);
-  };
-
-  const handlePopoverClose = () => {
-    setPopoverOpen(false);
-  };
+  const [colors, setColors] = useState([
+    {
+      hex: '#000000',
+      prio: 1,
+    },
+  ]);
 
   return (
-    <>
-      <span
-        className={classes.colorCircle}
-        style={{ backgroundColor: colorValue }}
-        onClick={handleClick}
-      />
-      <Popover
-        id="simple-popover"
-        open={popoverOpen}
-        anchorEl={document.getElementsByClassName(classes.colorCircle)[0]}
-        onClose={handlePopoverClose}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'left',
-        }}
-      >
-        <ChromePicker color={colorValue} onChange={handleChange} />
-      </Popover>
-    </>
+    <Grid container alignItems="center" direction="column" spacing={2}>
+      <Grid item xs={12}>
+        <ColorPicker />
+      </Grid>
+      <Grid item xs={12}>
+        <ColorPicker />
+      </Grid>
+      <Grid item xs={12}>
+        <ColorPicker />
+      </Grid>
+      <Grid item xs={12}>
+        <ColorPicker />
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container direction="row" spacing={2}>
+          <Grid item>
+            <Fab size="medium" color="secondary">
+              <AddIcon />
+            </Fab>
+          </Grid>
+          <Grid item>
+            <Fab size="medium">
+              <RemoveIcon />
+            </Fab>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };

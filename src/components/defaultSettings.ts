@@ -1,4 +1,4 @@
-import { Texture } from '../models/Texture';
+import { Texture } from '../models/models';
 
 export const defaultSettings: Texture = {
   core: {
