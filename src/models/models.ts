@@ -26,3 +26,9 @@ export interface HeaderProps {
 export interface GenButtonProps {
   setTextureSettings: Dispatch<SetStateAction<Texture>>;
 }
+
+export interface ColorPickerProps {
+  color: Color;
+  colorIndex: number;
+  setColors: Dispatch<SetStateAction<Color[]>>;
+}
