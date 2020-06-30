@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -7,17 +6,14 @@ import Paper from '@material-ui/core/Paper';
 import { Title } from './Title';
 import { GenButton } from './GenButton';
 
-import { HeaderProps } from '../models';
-
 const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
   },
 }));
 
-export const Header: React.FC<HeaderProps> = (props) => {
+export const Header: React.FC = () => {
   const classes = useStyles();
-  const { setTextureSettings } = props;
 
   return (
     <Paper variant="outlined">
@@ -33,13 +29,9 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <Title />
         </Grid>
         <Grid item xs={3}>
-          <GenButton setTextureSettings={setTextureSettings} />
+          <GenButton />
         </Grid>
       </Grid>
     </Paper>
   );
-};
-
-Header.propTypes = {
-  setTextureSettings: PropTypes.func.isRequired,
 };

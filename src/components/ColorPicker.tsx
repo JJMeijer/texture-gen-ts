@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Popover from '@material-ui/core/Popover';
+
 import { ChromePicker, ColorResult } from 'react-color';
 
-import { ColorPickerProps, Color } from '../models';
+import { State, UPDATE_COLOR_HEX, UPDATE_COLOR_PRIO } from '../store/texture/types';
+
+interface ColorPickerProps {
+  colorIndex: number;
+}
 
 const useStyles = makeStyles((theme) => ({
   colorCircle: {
@@ -32,24 +39,30 @@ const useStyles = makeStyles((theme) => ({
 
 export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   const classes = useStyles();
-  const {
-    color: { hex, prio },
-    colorIndex,
-    setColors,
-  } = props;
+  const { colorIndex } = props;
+
+  const color = useSelector((state: State) => state.core.palette[colorIndex]);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [error, setError] = useState(false);
 
+  const dispatch = useDispatch();
   const handleHexChange = (newHex: string) => {
-    setColors((prevState: Color[]) => {
-      prevState[colorIndex].hex = newHex;
-      return prevState;
+    dispatch({
+      type: UPDATE_COLOR_HEX,
+      value: newHex,
+      colorIndex,
     });
   };
 
-  useEffect(() => console.log(hex), [hex, prio]);
+  const handlePrioChange = (newPrio: number) => {
+    dispatch({
+      type: UPDATE_COLOR_PRIO,
+      value: newPrio,
+      colorIndex,
+    });
+  };
 
   const handlePopoverChange = (color: ColorResult) => {
     handleHexChange(color.hex);
@@ -77,7 +90,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   };
 
   const handlePrioFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    return event;
+    const newPrioValue = parseInt(event.currentTarget.value) || 0;
+    handlePrioChange(newPrioValue);
   };
 
   return (
@@ -85,7 +99,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
       <Grid item className={classes.colorWrapper}>
         <span
           className={classes.colorCircle}
-          style={{ backgroundColor: hex }}
+          style={{ backgroundColor: color.hex }}
           onClick={handleColorCircleClick}
         />
         <Popover
@@ -102,7 +116,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
             horizontal: 'left',
           }}
         >
-          <ChromePicker color={hex} onChange={handlePopoverChange} />
+          <ChromePicker color={color.hex} onChange={handlePopoverChange} />
         </Popover>
       </Grid>
       <Grid item xs={9} className={classes.textfieldWrapper}>
@@ -110,14 +124,14 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
           error={error}
           label="hex"
           variant="outlined"
-          value={hex}
+          value={color.hex}
           onChange={handleHexFieldChange}
           helperText={errorText}
           className={classes.textfield}
         />
         <TextField
           variant="outlined"
-          value={prio}
+          value={color.prio}
           label="prio"
           className={`${classes.textfield} ${classes.textfieldPrio}`}
           onChange={handlePrioFieldChange}
@@ -128,10 +142,5 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
 };
 
 ColorPicker.propTypes = {
-  color: PropTypes.shape({
-    hex: PropTypes.string.isRequired,
-    prio: PropTypes.number.isRequired,
-  }).isRequired,
   colorIndex: PropTypes.number.isRequired,
-  setColors: PropTypes.func.isRequired,
 };

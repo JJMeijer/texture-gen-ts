@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
 import { Header } from './Header';
 import { Content } from './Content';
 
-import { defaultSettings } from './defaultSettings';
-
 export const App: React.FC = () => {
-  const [textureSettings, setTextureSettings] = useState(defaultSettings);
-
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Header setTextureSettings={setTextureSettings} />
+    <Container maxWidth="lg">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Header />
+        </Grid>
+        <Grid item xs={12}>
+          <Content />
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Content textureSettings={textureSettings} />
-      </Grid>
-    </Grid>
+    </Container>
   );
 };

@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Texture, GenButtonProps } from '../models';
+import { REFRESH_CORE } from '../store/texture/types';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
   genButton: {
@@ -11,14 +11,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const GenButton: React.FC<GenButtonProps> = (props) => {
+export const GenButton: React.FC = () => {
   const classes = useStyles();
-  const { setTextureSettings } = props;
+  const dispatch = useDispatch();
 
   const generate = () => {
-    setTextureSettings((prevState: Texture) => ({
-      ...prevState,
-    }));
+    dispatch({
+      type: REFRESH_CORE,
+    });
   };
 
   return (
@@ -26,8 +26,4 @@ export const GenButton: React.FC<GenButtonProps> = (props) => {
       generate
     </button>
   );
-};
-
-GenButton.propTypes = {
-  setTextureSettings: PropTypes.func.isRequired,
 };

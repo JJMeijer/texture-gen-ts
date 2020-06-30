@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Color, Texture } from '../models/models';
-
-interface TextureProps {
-  setup: Texture;
-}
+import { State, Color } from '../store/texture/types';
 
 const useStyles = makeStyles((theme) => ({
   texture: {
@@ -43,15 +41,13 @@ const getRandomColorFromHexArray = (hexArray: string[]): string => {
   return hexArray[randomIndex];
 };
 
-export const TextureCanvas = (props: TextureProps): React.ReactElement => {
-  const classes = useStyles();
-  const {
-    setup: {
-      core: { palette },
-      size: { height, width },
-    },
-  } = props;
+export const TextureCanvas: React.FC = () => {
+  const palette = useSelector((state: State) => state.core.palette);
+  const size = useSelector((state: State) => state.core.size);
 
+  const { width, height } = size;
+
+  const classes = useStyles();
   const hexArray: string[] = generateHexArray(palette);
 
   useEffect(() => {
