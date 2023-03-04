@@ -1,6 +1,6 @@
 import { ChromePicker, ColorResult } from "react-color";
 
-import { useTextureStore } from "@stores";
+import { useColorPickerStore, useTextureStore } from "@stores";
 import { IconPlus } from "./icons";
 import { InputField } from "./InputField";
 import { useEffect, useState } from "react";
@@ -16,13 +16,15 @@ export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
     const updateColor = useTextureStore((state) => state.updateColor);
     const removeColor = useTextureStore((state) => state.removeColor);
 
+    const openColorPicker = useColorPickerStore((state) => state.openColorPicker);
+    const setOpenColorPicker = useColorPickerStore((state) => state.setOpenColorPicker);
+    const currentColorPickerOpen = openColorPicker === id;
+
     const color = palette[id];
 
     if (!color) {
         throw new Error("Unexpected Error");
     }
-
-    const [colorPickerOpen, setColorPickerOpen] = useState(false);
 
     const onHexValueChange = (value: string) => {
         updateColor(id, {
@@ -39,7 +41,11 @@ export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
     };
 
     const onColorSpanClick = () => {
-        setColorPickerOpen(!colorPickerOpen);
+        if (currentColorPickerOpen) {
+            setOpenColorPicker("");
+        } else {
+            setOpenColorPicker(id);
+        }
     };
 
     const onChromePickerChange = (colorResult: ColorResult) => {
@@ -59,17 +65,17 @@ export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
                 return;
             }
 
-            setColorPickerOpen(false);
+            setOpenColorPicker("");
         };
 
-        if (colorPickerOpen) {
+        if (currentColorPickerOpen) {
             document.addEventListener("click", globalClickHandler);
         }
 
         return () => {
             document.removeEventListener("click", globalClickHandler);
         };
-    }, [colorPickerOpen]);
+    }, [currentColorPickerOpen]);
 
     return (
         <div className="flex flex-row items-center gap-4 p-2 border rounded-lg border-neutral-400/50">
@@ -79,7 +85,7 @@ export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
                     className="w-12 h-12 rounded-full cursor-pointer bg-emerald-50"
                     style={{ backgroundColor: color.hex }}
                 />
-                <div className={`absolute left-[120%] -top-full ${colorPickerOpen ? "flex" : "hidden"}`}>
+                <div className={`absolute left-[120%] -top-full ${currentColorPickerOpen ? "flex" : "hidden"}`}>
                     <ChromePicker color={color.hex} onChange={onChromePickerChange} />
                 </div>
             </div>
@@ -95,7 +101,7 @@ export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
             <div
                 onClick={() => removeColor(id)}
                 title="Remove Color"
-                className="flex items-start rotate-45 cursor-pointer text-neutral-600/50 hover:text-neutral-600"
+                className="flex items-start w-6 rotate-45 cursor-pointer text-neutral-600/50 hover:text-neutral-600"
             >
                 <IconPlus />
             </div>

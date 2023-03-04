@@ -3,11 +3,6 @@ export interface Color {
     prio: number;
 }
 
-export interface Size {
-    height: number;
-    width: number;
-}
-
 export interface Palette {
     [key: string]: Color;
 }

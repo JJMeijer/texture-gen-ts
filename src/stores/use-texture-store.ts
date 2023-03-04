@@ -1,22 +1,25 @@
 import { create } from "zustand";
 import { v4 as uuid } from "uuid";
 
-import { Color, Palette, Size } from "@types";
+import { Color, Palette } from "@types";
 
 interface TextureStore {
     palette: Palette;
-    size: Size;
+    update: number;
     addColor: () => void;
     updateColor: (id: string, color: Color) => void;
     removeColor: (id: string) => void;
+    forceUpdate: () => void;
 }
 
 export const useTextureStore = create<TextureStore>((set) => ({
-    palette: {},
-    size: {
-        width: 400,
-        height: 400,
+    palette: {
+        [uuid()]: {
+            hex: "#e1e1e1",
+            prio: 1,
+        },
     },
+    update: 1,
     addColor: () => set((state) => ({ palette: { ...state.palette, [uuid()]: { hex: "#999", prio: 1 } } })),
     updateColor: (id, color) => set((state) => ({ palette: { ...state.palette, [id]: color } })),
     removeColor: (id) =>
@@ -27,4 +30,5 @@ export const useTextureStore = create<TextureStore>((set) => ({
                 palette,
             };
         }),
+    forceUpdate: () => set((state) => ({ update: state.update + 1 })),
 }));

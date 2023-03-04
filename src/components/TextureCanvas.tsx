@@ -2,6 +2,9 @@ import { Color, Palette } from "@types";
 import { useEffect, useRef } from "react";
 import { useTextureStore } from "@stores";
 
+const WIDTH = 400;
+const HEIGHT = 400;
+
 const generateHexArray = (palette: Palette): string[] => {
     const hexArray: string[] = [];
 
@@ -16,9 +19,7 @@ const generateHexArray = (palette: Palette): string[] => {
 
 export const TextureCanvas = (): JSX.Element => {
     const palette = useTextureStore((state) => state.palette);
-    const size = useTextureStore((state) => state.size);
-
-    const { width, height } = size;
+    const update = useTextureStore((state) => state.update);
 
     const hexArray: string[] = generateHexArray(palette);
 
@@ -34,8 +35,8 @@ export const TextureCanvas = (): JSX.Element => {
         const context = canvas.getContext("2d");
 
         if (context) {
-            for (let col = 0; col < width; col += 20) {
-                for (let row = 0; row < height; row += 20) {
+            for (let col = 0; col < WIDTH; col += 20) {
+                for (let row = 0; row < HEIGHT; row += 20) {
                     const randomFillStyle = hexArray[Math.floor(Math.random() * hexArray.length)];
 
                     context.fillStyle = randomFillStyle || "#e1e1e1";
@@ -43,14 +44,14 @@ export const TextureCanvas = (): JSX.Element => {
                 }
             }
         }
-    }, [hexArray]);
+    }, [hexArray, update]);
 
     return (
         <canvas
-            className="w-1/2 border rounded-md border-neutral-500/50"
+            className="border w-[400px] h-[400px] rounded-md border-neutral-500/50"
             ref={canvasRef}
-            width={width}
-            height={height}
+            width={WIDTH}
+            height={HEIGHT}
         ></canvas>
     );
 };
