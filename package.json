@@ -1,46 +1,38 @@
 {
-  "name": "texture-gen-ts",
-  "version": "1.0.0",
-  "main": "src/index.html",
-  "scripts": {
-    "dev": "parcel src/index.html --log-level 4",
-    "test": "tsc --noEmit"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JJMeijer/texture-gen-ts.git"
-  },
-  "author": "JJMeijer",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JJMeijer/texture-gen-ts/issues"
-  },
-  "homepage": "https://github.com/JJMeijer/texture-gen-ts#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "@material-ui/core": "^4.10.2",
-    "@material-ui/icons": "^4.9.1",
-    "parcel-bundler": "^1.12.4",
-    "postcss-modules": "^2.0.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-color": "^2.18.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
-    "redux": "^4.0.5",
-    "typescript": "^3.9.5",
-    "@types/material-ui": "^0.21.7",
-    "@types/parcel-env": "0.0.0",
-    "@types/react": "^16.9.36",
-    "@types/react-color": "^3.0.2",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-redux": "^7.1.9",
-    "@typescript-eslint/eslint-plugin": "^3.2.0",
-    "@typescript-eslint/parser": "^3.2.0",
-    "eslint": "^7.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-react": "^7.20.0",
-    "prettier": "^2.0.5"
-  }
+    "name": "texture-gen-ts-2",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.0.28",
+        "@types/react-color": "^3.0.6",
+        "@types/react-dom": "^18.0.11",
+        "@types/uuid": "^9.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.54.0",
+        "@typescript-eslint/parser": "^5.54.0",
+        "@vitejs/plugin-react": "^3.1.0",
+        "autoprefixer": "^10.4.13",
+        "eslint": "^8.35.0",
+        "eslint-config-prettier": "^8.6.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react": "^7.32.2",
+        "postcss": "^8.4.21",
+        "prettier": "^2.8.4",
+        "react-color": "^2.19.3",
+        "tailwindcss": "^3.2.7",
+        "typescript": "^4.9.5",
+        "uuid": "^9.0.0",
+        "vite": "^4.1.4",
+        "vite-tsconfig-paths": "^4.0.5",
+        "zustand": "^4.3.5"
+    }
 }

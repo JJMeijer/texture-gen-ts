@@ -1,146 +1,104 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import { ChromePicker, ColorResult } from "react-color";
 
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Popover from '@material-ui/core/Popover';
-
-import { ChromePicker, ColorResult } from 'react-color';
-
-import { State, UPDATE_COLOR_HEX, UPDATE_COLOR_PRIO } from '../store/texture/types';
+import { useTextureStore } from "@stores";
+import { IconPlus } from "./icons";
+import { InputField } from "./InputField";
+import { useEffect, useState } from "react";
 
 interface ColorPickerProps {
-  colorIndex: number;
+    id: string;
 }
 
-const useStyles = makeStyles((theme) => ({
-  colorCircle: {
-    height: theme.spacing(4.5),
-    width: theme.spacing(4.5),
-    borderRadius: '50%',
-    display: 'inline-block',
-  },
-  colorWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  textfieldWrapper: {
-    display: 'inline-flex',
-  },
-  textfield: {
-    margin: theme.spacing(1),
-  },
-  textfieldPrio: {
-    width: '25%',
-  },
-}));
+export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
+    const { id } = props;
 
-export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
-  const classes = useStyles();
-  const { colorIndex } = props;
+    const palette = useTextureStore((state) => state.palette);
+    const updateColor = useTextureStore((state) => state.updateColor);
+    const removeColor = useTextureStore((state) => state.removeColor);
 
-  const color = useSelector((state: State) => state.core.palette[colorIndex]);
+    const color = palette[id];
 
-  const [popoverOpen, setPopoverOpen] = useState(false);
-  const [errorText, setErrorText] = useState('');
-  const [error, setError] = useState(false);
-
-  const dispatch = useDispatch();
-  const handleHexChange = (newHex: string) => {
-    dispatch({
-      type: UPDATE_COLOR_HEX,
-      value: newHex,
-      colorIndex,
-    });
-  };
-
-  const handlePrioChange = (newPrio: number) => {
-    dispatch({
-      type: UPDATE_COLOR_PRIO,
-      value: newPrio,
-      colorIndex,
-    });
-  };
-
-  const handlePopoverChange = (color: ColorResult) => {
-    handleHexChange(color.hex);
-  };
-
-  const handleColorCircleClick = () => {
-    setPopoverOpen(true);
-  };
-
-  const handlePopoverClose = () => {
-    setPopoverOpen(false);
-  };
-
-  const handleHexFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newHexValue = event.currentTarget.value;
-    handleHexChange(newHexValue);
-
-    if (!newHexValue.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)) {
-      setError(true);
-      setErrorText('This is not a hex color value');
-    } else {
-      setError(false);
-      setErrorText('');
+    if (!color) {
+        throw new Error("Unexpected Error");
     }
-  };
 
-  const handlePrioFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newPrioValue = parseInt(event.currentTarget.value) || 0;
-    handlePrioChange(newPrioValue);
-  };
+    const [colorPickerOpen, setColorPickerOpen] = useState(false);
 
-  return (
-    <Grid container direction="row" spacing={2}>
-      <Grid item className={classes.colorWrapper}>
-        <span
-          className={classes.colorCircle}
-          style={{ backgroundColor: color.hex }}
-          onClick={handleColorCircleClick}
-        />
-        <Popover
-          id="simple-popover"
-          open={popoverOpen}
-          anchorEl={document.getElementsByClassName(classes.colorCircle)[0]}
-          onClose={handlePopoverClose}
-          anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'center',
-            horizontal: 'left',
-          }}
-        >
-          <ChromePicker color={color.hex} onChange={handlePopoverChange} />
-        </Popover>
-      </Grid>
-      <Grid item xs={9} className={classes.textfieldWrapper}>
-        <TextField
-          error={error}
-          label="hex"
-          variant="outlined"
-          value={color.hex}
-          onChange={handleHexFieldChange}
-          helperText={errorText}
-          className={classes.textfield}
-        />
-        <TextField
-          variant="outlined"
-          value={color.prio}
-          label="prio"
-          className={`${classes.textfield} ${classes.textfieldPrio}`}
-          onChange={handlePrioFieldChange}
-        />
-      </Grid>
-    </Grid>
-  );
-};
+    const onHexValueChange = (value: string) => {
+        updateColor(id, {
+            ...color,
+            hex: value,
+        });
+    };
 
-ColorPicker.propTypes = {
-  colorIndex: PropTypes.number.isRequired,
+    const onPrioValueChange = (value: string) => {
+        updateColor(id, {
+            ...color,
+            prio: parseInt(value),
+        });
+    };
+
+    const onColorSpanClick = () => {
+        setColorPickerOpen(!colorPickerOpen);
+    };
+
+    const onChromePickerChange = (colorResult: ColorResult) => {
+        updateColor(id, {
+            ...color,
+            hex: colorResult.hex,
+        });
+    };
+
+    useEffect(() => {
+        const globalClickHandler = (event: globalThis.MouseEvent) => {
+            if (!event.target || !(event.target instanceof HTMLElement)) {
+                return;
+            }
+
+            if (event.target.matches(".color-display, .color-display *")) {
+                return;
+            }
+
+            setColorPickerOpen(false);
+        };
+
+        if (colorPickerOpen) {
+            document.addEventListener("click", globalClickHandler);
+        }
+
+        return () => {
+            document.removeEventListener("click", globalClickHandler);
+        };
+    }, [colorPickerOpen]);
+
+    return (
+        <div className="flex flex-row items-center gap-4 p-2 border rounded-lg border-neutral-400/50">
+            <div className="relative flex color-display">
+                <span
+                    onClick={onColorSpanClick}
+                    className="w-12 h-12 rounded-full cursor-pointer bg-emerald-50"
+                    style={{ backgroundColor: color.hex }}
+                />
+                <div className={`absolute left-[120%] -top-full ${colorPickerOpen ? "flex" : "hidden"}`}>
+                    <ChromePicker color={color.hex} onChange={onChromePickerChange} />
+                </div>
+            </div>
+            <div className="flex flex-col gap-2 text-sm">
+                <InputField
+                    label="Hex:"
+                    value={color.hex}
+                    onChange={onHexValueChange}
+                    pattern={/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/}
+                />
+                <InputField label="Prio:" value={String(color.prio)} onChange={onPrioValueChange} pattern={/\d+/} />
+            </div>
+            <div
+                onClick={() => removeColor(id)}
+                title="Remove Color"
+                className="flex items-start rotate-45 cursor-pointer text-neutral-600/50 hover:text-neutral-600"
+            >
+                <IconPlus />
+            </div>
+        </div>
+    );
 };
