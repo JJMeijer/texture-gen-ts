@@ -1,16 +1,14 @@
 # texture-gen-ts
-Pixel art style texture generator. prototype written in Typescript.
+Pixel art style texture generator.
 
 ## Install
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ## Run
 
 ```bash
-yarn run dev
+pnpm dev
 ```
-
-Application will be available at http://localhost:1234
