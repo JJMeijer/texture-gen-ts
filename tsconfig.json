@@ -22,7 +22,8 @@
         "paths": {
             "@types": ["./src/types.ts"],
             "@stores": ["./src/stores/index.ts"],
-            "@utility": ["./src/utility/index.ts"]
+            "@utility": ["./src/utility/index.ts"],
+            "@constants": ["./src/contants.ts"]
         },
         "noImplicitAny": true,
         "strictNullChecks": true,

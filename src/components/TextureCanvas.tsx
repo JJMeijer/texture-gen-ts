@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { useTextureStore } from "@stores";
 import { getColorChoicesArray, getRandomHexColor } from "@utility";
+import { CANVAS_ID } from "../constants";
 
 const WIDTH = 400;
 const HEIGHT = 400;
@@ -37,6 +38,7 @@ export const TextureCanvas = (): JSX.Element => {
 
     return (
         <canvas
+            id={CANVAS_ID}
             className="border w-[400px] h-[400px] rounded-md border-neutral-500/50"
             ref={canvasRef}
             width={WIDTH}

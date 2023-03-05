@@ -1,5 +1,6 @@
 import { Button, TextureCanvas, TextureSettings } from "./components";
 import { useTextureStore } from "@stores";
+import { downloadCanvasAsPng } from "./utility/download-canvas-as-png";
 
 export const App = (): JSX.Element => {
     const forceUpdate = useTextureStore((state) => state.forceUpdate);
@@ -11,7 +12,7 @@ export const App = (): JSX.Element => {
                     <p className="text-3xl">Texture Generator</p>
                     <div className="flex flex-row gap-6">
                         <Button variant="primary" label="Generate" onClick={() => forceUpdate()} />
-                        <Button variant="secondary" label="Download" />
+                        <Button variant="secondary" label="Download" onClick={() => downloadCanvasAsPng()} />
                     </div>
                 </div>
 
