@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { v4 as uuid } from "uuid";
 
 import { Color, Palette } from "@types";
+import { getRandomHexColor } from "@utility";
 
 interface TextureStore {
     palette: Palette;
@@ -15,12 +16,12 @@ interface TextureStore {
 export const useTextureStore = create<TextureStore>((set) => ({
     palette: {
         [uuid()]: {
-            hex: "#e1e1e1",
+            hex: getRandomHexColor(),
             prio: 1,
         },
     },
     update: 1,
-    addColor: () => set((state) => ({ palette: { ...state.palette, [uuid()]: { hex: "#999", prio: 1 } } })),
+    addColor: () => set((state) => ({ palette: { ...state.palette, [uuid()]: { hex: getRandomHexColor(), prio: 1 } } })),
     updateColor: (id, color) => set((state) => ({ palette: { ...state.palette, [id]: color } })),
     removeColor: (id) =>
         set((state) => {

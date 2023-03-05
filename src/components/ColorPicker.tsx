@@ -1,9 +1,9 @@
+import { useEffect } from "react";
 import { ChromePicker, ColorResult } from "react-color";
 
 import { useColorPickerStore, useTextureStore } from "@stores";
 import { IconPlus } from "./icons";
 import { InputField } from "./InputField";
-import { useEffect, useState } from "react";
 
 interface ColorPickerProps {
     id: string;
@@ -78,11 +78,11 @@ export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
     }, [currentColorPickerOpen]);
 
     return (
-        <div className="flex flex-row items-center gap-4 p-2 border rounded-lg border-neutral-400/50">
+        <div className="flex flex-row items-center gap-4 p-2 border rounded-lg bg-neutral-300 border-neutral-400/50">
             <div className="relative flex color-display">
                 <span
                     onClick={onColorSpanClick}
-                    className="w-12 h-12 rounded-full cursor-pointer bg-emerald-50"
+                    className="w-12 h-12 rounded-full cursor-pointer"
                     style={{ backgroundColor: color.hex }}
                 />
                 <div className={`absolute left-[120%] -top-full ${currentColorPickerOpen ? "flex" : "hidden"}`}>
@@ -96,7 +96,7 @@ export const ColorPicker = (props: ColorPickerProps): JSX.Element => {
                     onChange={onHexValueChange}
                     pattern={/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/}
                 />
-                <InputField label="Prio:" value={String(color.prio)} onChange={onPrioValueChange} pattern={/\d+/} />
+                <InputField label="Prio:" value={String(color.prio)} onChange={onPrioValueChange} pattern={/^\d+$/} />
             </div>
             <div
                 onClick={() => removeColor(id)}

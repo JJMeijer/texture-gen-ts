@@ -1,27 +1,16 @@
-import { Color, Palette } from "@types";
 import { useEffect, useRef } from "react";
+
 import { useTextureStore } from "@stores";
+import { getColorChoicesArray, getRandomHexColor } from "@utility";
 
 const WIDTH = 400;
 const HEIGHT = 400;
-
-const generateHexArray = (palette: Palette): string[] => {
-    const hexArray: string[] = [];
-
-    Object.values(palette).forEach((color: Color) => {
-        for (let i = 0; i < color.prio; i++) {
-            hexArray.push(color.hex);
-        }
-    });
-
-    return hexArray;
-};
 
 export const TextureCanvas = (): JSX.Element => {
     const palette = useTextureStore((state) => state.palette);
     const update = useTextureStore((state) => state.update);
 
-    const hexArray: string[] = generateHexArray(palette);
+    const hexArray: string[] = getColorChoicesArray(palette);
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -39,7 +28,7 @@ export const TextureCanvas = (): JSX.Element => {
                 for (let row = 0; row < HEIGHT; row += 20) {
                     const randomFillStyle = hexArray[Math.floor(Math.random() * hexArray.length)];
 
-                    context.fillStyle = randomFillStyle || "#e1e1e1";
+                    context.fillStyle = randomFillStyle || getRandomHexColor();
                     context.fillRect(col, row, 20, 20);
                 }
             }

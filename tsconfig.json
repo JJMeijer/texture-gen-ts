@@ -21,7 +21,8 @@
         "jsx": "react-jsx",
         "paths": {
             "@types": ["./src/types.ts"],
-            "@stores": ["./src/stores/index.ts"]
+            "@stores": ["./src/stores/index.ts"],
+            "@utility": ["./src/utility/index.ts"]
         },
         "noImplicitAny": true,
         "strictNullChecks": true,

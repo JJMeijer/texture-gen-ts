@@ -41,7 +41,7 @@ export const InputField = (props: InputFieldProps): JSX.Element => {
                 value={value}
                 onChange={onChange}
                 type="text"
-                className={`p-1 border rounded-md bg-neutral-100 outline-none focus:ring-2 ring-cyan-800 border-neutral-400/20 ${
+                className={`p-1 border rounded-md bg-neutral-200 outline-none focus:ring-2 ring-cyan-800 border-neutral-400/50 ${
                     patternError ? "ring-red-900 ring-2" : "ring-cyan-800"
                 }`}
             />
