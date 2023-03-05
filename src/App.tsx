@@ -6,8 +6,8 @@ export const App = (): JSX.Element => {
     const forceUpdate = useTextureStore((state) => state.forceUpdate);
 
     return (
-        <div className="flex flex-col items-center w-full h-full">
-            <div className="flex flex-col items-center w-full h-full md:w-3/4">
+        <div className="flex flex-col items-center w-full min-h-full">
+            <div className="flex flex-col items-center w-full h-full gap-8 lg:w-3/4">
                 <div className="flex flex-col items-center w-full gap-6 pt-6">
                     <p className="text-3xl">Texture Generator</p>
                     <div className="flex flex-row gap-6">
@@ -17,7 +17,7 @@ export const App = (): JSX.Element => {
                 </div>
 
                 <div className="flex flex-col items-center justify-center h-full pb-16">
-                    <div className="flex flex-row gap-8">
+                    <div className="flex flex-col lg:flex-row gap-8">
                         <TextureCanvas />
                         <TextureSettings />
                     </div>

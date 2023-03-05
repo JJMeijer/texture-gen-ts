@@ -39,7 +39,7 @@ export const TextureCanvas = (): JSX.Element => {
     return (
         <canvas
             id={CANVAS_ID}
-            className="border w-[400px] h-[400px] rounded-md border-neutral-500/50"
+            className="border w-96 h-96 rounded-md border-neutral-500/50"
             ref={canvasRef}
             width={WIDTH}
             height={HEIGHT}
